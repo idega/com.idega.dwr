@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE faces-config PUBLIC
+  "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+  "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+
+<faces-config>
+<!--
+	<component>
+		<component-type>ImageItemView</component-type>
+		<component-class>com.idega.block.gallery.presentation.ImageItemViewer</component-class>
+	</component>
+	
+	<component>
+		<component-type>GalleryViewer</component-type>
+		<component-class>com.idega.block.gallery.presentation.GalleryViewer</component-class>
+	</component>
+	
+	<managed-bean>
+		<managed-bean-name>ImageGalleryManagedBean</managed-bean-name>
+		<managed-bean-class>com.idega.block.gallery.bean.ImageGalleryManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	-->
+</faces-config>

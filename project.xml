@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <extend>${base.project.dir}/block-dependencies.xml</extend>
+  <pomVersion>3</pomVersion>
+  <artifactId>com.idega.dwr</artifactId>
+  <name>DWR easy ajax for java, IdegaWeb integration</name>
+  <currentVersion>1.0-SNAPSHOT</currentVersion>
+  <organization>Idega Software</organization>
+  <inceptionYear>2006</inceptionYear>
+  <shortDescription>IdegaWeb integration of the DWR ajax framework for direct javascript to java method calls, see website at getahead.ltd.uk</shortDescription>
+  <developers>
+    <developer>
+      <id>eiki</id>
+      <name>Eirikur S. Hrafnsson</name>
+      <email>eiki@idega.is</email>
+      <organization>Idega Software</organization>
+    </developer>
+  </developers>
+  <dependencies>
+    <dependency>
+      <groupId>bundles</groupId>
+      <artifactId>com.idega.core</artifactId>
+      <!--version>3.0.6</version-->
+      <version>SNAPSHOT</version>
+      <type>jar</type>
+      <url>http://www.idega.com/</url>
+      <properties>
+        <eclipse.dependency>true</eclipse.dependency>
+      </properties>
+    </dependency>
+    
+    <!-- dependency to the DWR project -->
+    <dependency>
+      <groupId>dwr</groupId>
+      <artifactId>dwr</artifactId>
+      <version>1.1</version>
+      <type>jar</type>
+      <url>http://getahead.ltd.uk/dwr/</url>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
+    </dependency>
+    
+  </dependencies>
+  <build />
+</project>
+

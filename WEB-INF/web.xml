@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<!DOCTYPE web-app 
+	PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" 
+	"http://java.sun.com/dtd/web-app_2_3.dtd">
 
-<web-app id="dwr">
+<web-app>
 
+<!--
   <display-name>DWR (Direct Web Remoting)</display-name>
-  <description>A demo of how to call Java on the server directly from Javascript on the client</description>
+  <description>A demo of how to call Java on the server directly from Javascript on the client,http://getahead.ltd.uk/dwr/ </description>
+-->
+
+<filter>
+  <filter-name>DwrFacesFilter</filter-name>
+  <filter-class>uk.ltd.getahead.dwr.servlet.FacesExtensionFilter</filter-class>
+</filter>
+
+<filter-mapping>
+  <filter-name>DwrFacesFilter</filter-name>
+  <url-pattern>/dwr/*</url-pattern>
+</filter-mapping>
 
   <servlet>
     <servlet-name>dwr-invoker</servlet-name>
     <display-name>DWR Servlet</display-name>
     <description>Direct Web Remoter Servlet</description>
-    <servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class>
-    <!--
+    <servlet-class>com.idega.dwr.servlet.DWRExtendedServlet</servlet-class>
+
     <init-param>
       <param-name>config</param-name>
-      <param-value>WEB-INF/dwr.xml</param-value>
+      <param-value>/idegaweb/bundles/com.idega.dwr.bundle/properties/dwr.xml</param-value>
     </init-param>
-    -->
+
     <init-param>
       <param-name>debug</param-name>
       <param-value>true</param-value>

@@ -1,0 +1,43 @@
+<document>
+  <properties>
+    <title>Faces changes</title>
+    <author email="tryggvi@idega.com">Tryggvi Larusson</author>
+  </properties>
+  <body>
+  
+  	<release version="3.1.0" date="2005-06-19">
+      <action dev="tryggvil" type="update">
+      	Declaration of version for including in ePlatform release 3.1
+      </action>      
+    </release>
+  
+	<release version="1.0.3" date="2005-09-15">
+      <action dev="tryggvil" type="update">
+        Declaration of version for use with 3.0.6 core.
+      </action>              
+    </release>
+        <release version="1.0.2" date="2005-05-25">
+      <action dev="tryggvil" type="update">
+        Declaration of version for use with 3.0.5 core.
+      </action>              
+    </release>
+      <release version="1.0.1" date="2005-04-06">
+      <action dev="tryggvil" type="update">
+        Declaration of version for use with 3.0.4 core.
+      </action>              
+    </release>
+    
+    <release version="1.0.0" date="2005-03-10">
+      <action dev="tryggvil" type="update">
+        Declaration of version for use with 3.0.0 core.
+      </action>              
+    </release>
+
+    <release version="0.9" date="2004-07-10">
+      <action dev="tryggvil" type="update">
+        Declaration of version for use with 1.9 core.
+      </action>              
+    </release>
+
+  </body>
+</document>

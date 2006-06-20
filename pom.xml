@@ -32,7 +32,7 @@
     <!-- dependency to the DWR project -->
 
     <dependency>
-      <groupId>dwr</groupId>
+      <groupId>uk.ltd.getahead</groupId>
       <artifactId>dwr</artifactId>
       <version>1.1</version>
       <type>jar</type>

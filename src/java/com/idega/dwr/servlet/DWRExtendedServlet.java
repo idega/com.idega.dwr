@@ -1,5 +1,5 @@
 /*
- * $Id: DWRExtendedServlet.java,v 1.2 2006/05/04 13:11:39 laddi Exp $ Created on Apr 18,
+ * $Id: DWRExtendedServlet.java,v 1.3 2006/10/19 20:29:47 gediminas Exp $ Created on Apr 18,
  * 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -12,7 +12,6 @@ package com.idega.dwr.servlet;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import javax.servlet.ServletConfig;
@@ -34,10 +33,10 @@ import com.idega.idegaweb.JarLoader;
  * auto loading of dwr.xml config files from <br>
  * inside idegaweb bundle jar files.
  * 
- * Last modified: $Date: 2006/05/04 13:11:39 $ by $Author: laddi $
+ * Last modified: $Date: 2006/10/19 20:29:47 $ by $Author: gediminas $
  * 
  * @author <a href="mailto:eiki@idega.com">Eirikur S. Hrafnsson</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DWRExtendedServlet extends DWRServlet implements JarLoader {
 
@@ -86,25 +85,21 @@ public class DWRExtendedServlet extends DWRServlet implements JarLoader {
 	 *      java.lang.String)
 	 */
 	public void loadJar(File bundleJarFile, JarFile jarFile, String jarPath) {
-		Enumeration entries = jarFile.entries();
-		while (entries.hasMoreElements()) {
-			JarEntry entry = (JarEntry) entries.nextElement();
-			// JarFileEntry entryName = (JarFileEntry)entries.nextElement();
-			String entryName = entry.getName();
-			if (entryName.endsWith("dwr.xml")) {
-				try {
-					InputStream stream = jarFile.getInputStream(entry);
-					this.dwrConfig.addConfig(stream);
-				}
-				catch (IOException e) {
-					e.printStackTrace();
-				}
-				catch (ParserConfigurationException e) {
-					e.printStackTrace();
-				}
-				catch (SAXException e) {
-					e.printStackTrace();
-				}
+		JarEntry entry = jarFile.getJarEntry("WEB-INF/dwr.xml");
+
+		if (entry != null) {
+			try {
+				InputStream stream = jarFile.getInputStream(entry);
+				this.dwrConfig.addConfig(stream);
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
+			catch (ParserConfigurationException e) {
+				e.printStackTrace();
+			}
+			catch (SAXException e) {
+				e.printStackTrace();
 			}
 		}
 	}

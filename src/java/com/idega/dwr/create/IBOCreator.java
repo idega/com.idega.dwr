@@ -1,5 +1,5 @@
 /*
- * $Id: IBOCreator.java,v 1.1 2006/05/02 18:55:24 eiki Exp $
+ * $Id: IBOCreator.java,v 1.2 2006/11/16 11:10:04 valdas Exp $
  * Created on Apr 19, 2006
  *
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -9,7 +9,8 @@
  */
 package com.idega.dwr.create;
 
-import uk.ltd.getahead.dwr.create.NewCreator;
+import org.directwebremoting.create.NewCreator;
+
 import com.idega.business.IBOLookup;
 import com.idega.business.IBOLookupException;
 import com.idega.idegaweb.IWMainApplication;
@@ -23,10 +24,10 @@ import com.idega.presentation.IWContext;
  * This custom creator is registered in the DWRExtendedServlet configure method.<br>
  * The creator key is "ibo"
  * 
- *  Last modified: $Date: 2006/05/02 18:55:24 $ by $Author: eiki $
+ *  Last modified: $Date: 2006/11/16 11:10:04 $ by $Author: valdas $
  * 
  * @author <a href="mailto:eiki@idega.com">eiki</a>
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class IBOCreator extends NewCreator {
 
@@ -60,6 +61,5 @@ public class IBOCreator extends NewCreator {
 		
 		return null;
 	}
-	
-	
+
 }

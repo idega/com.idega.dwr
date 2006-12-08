@@ -1,5 +1,5 @@
 /*
- * $Id: DWRExtendedServlet.java,v 1.4 2006/11/16 11:10:04 valdas Exp $ Created on Apr 18,
+ * $Id: DWRExtendedServlet.java,v 1.5 2006/12/08 10:34:11 gediminas Exp $ Created on Apr 18,
  * 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -10,19 +10,18 @@
 package com.idega.dwr.servlet;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.directwebremoting.CreatorManager;
 import org.directwebremoting.impl.DwrXmlConfigurator;
 import org.directwebremoting.servlet.DwrServlet;
-import org.xml.sax.SAXException;
 
 import com.idega.dwr.create.IBOCreator;
 import com.idega.idegaweb.IWMainApplication;
@@ -34,14 +33,15 @@ import com.idega.idegaweb.JarLoader;
  * auto loading of dwr.xml config files from <br>
  * inside idegaweb bundle jar files.
  * 
- * Last modified: $Date: 2006/11/16 11:10:04 $ by $Author: valdas $
+ * Last modified: $Date: 2006/12/08 10:34:11 $ by $Author: gediminas $
  * 
  * @author <a href="mailto:eiki@idega.com">Eirikur S. Hrafnsson</a>
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 
 	private static final long serialVersionUID = 3422209939690053482L;
+	private static final Logger log = Logger.getLogger(DWRExtendedServlet.class.getName());
 
 	public DWRExtendedServlet() {
 		super();
@@ -94,14 +94,8 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 	            // Container is a protected variable in the super class
 	            dwrFile.configure(container);
 			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-			catch (ParserConfigurationException e) {
-				e.printStackTrace();
-			}
-			catch (SAXException e) {
-				e.printStackTrace();
+			catch (Exception e) {
+				log.log(Level.WARNING, "Error loading dwr.xml from " + jarFile.getName(), e);
 			}
 		}
 	}

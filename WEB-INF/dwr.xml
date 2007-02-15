@@ -10,12 +10,6 @@
     <create creator="new" javascript="JDate">
       <param name="class" value="java.util.Date"/>
     </create>
-    <create creator="new" javascript="JavascriptChat" scope="application">
-      <param name="class" value="uk.ltd.getahead.dwrdemo.chat.JavascriptChat"/>
-    </create>
-    <create creator="new" javascript="JavaChat" scope="application">
-      <param name="class" value="uk.ltd.getahead.dwrdemo.chat.JavaChat"/>
-    </create>
     <convert converter="bean" match="uk.ltd.getahead.dwrdemo.chat.Message"/>
     <create creator="script" javascript="EmailValidator" scope="application">
       <param name="language" value="beanshell"/>

@@ -10,14 +10,6 @@
     <create creator="new" javascript="JDate">
       <param name="class" value="java.util.Date"/>
     </create>
-    <convert converter="bean" match="uk.ltd.getahead.dwrdemo.chat.Message"/>
-    <create creator="script" javascript="EmailValidator" scope="application">
-      <param name="language" value="beanshell"/>
-      <param name="script">
-        import org.apache.commons.validator.EmailValidator;
-        return EmailValidator.getInstance();
-      </param>
-    </create>
   </allow>
 
 	<signatures>

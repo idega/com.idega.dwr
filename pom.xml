@@ -14,6 +14,11 @@
   <version>2.0</version>
   <inceptionYear>2006</inceptionYear>
   <description>IdegaWeb integration of the DWR ajax framework for direct javascript to java method calls, see website at getahead.ltd.uk</description>
+  <scm>
+    <connection>scm:cvs:ext:${user.name}@code.idega.com:/idega/cvs:${groupId}/${artifactId}/</connection>
+    <developerConnection>scm:cvs:ext:${user.name}@code.idega.com:/idega/cvs:${groupId}/${artifactId}/</developerConnection>
+  </scm>
+
   <developers>
     <developer>
       <id>eiki</id>

@@ -49,6 +49,11 @@
       <param-name>scriptCompressed</param-name>
       <param-value>false</param-value>
     </init-param>
+    <init-param>
+    	<param-name>crossDomainSessionSecurity</param-name>
+    	<param-value>false</param-value>
+    </init-param>
+    
     <load-on-startup>1</load-on-startup>
   </servlet>
 

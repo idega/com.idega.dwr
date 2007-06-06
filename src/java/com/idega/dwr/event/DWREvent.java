@@ -12,16 +12,17 @@ public class DWREvent implements Serializable{ //extends EventObject{ cannot ext
 
 	public static final String EVENT_NO_SOURCE = "NOSOURCE";
 	private static final long serialVersionUID = -1282376140723922324L;
-	Map eventData;
-	String source;
-	String eventType;
-	boolean sendToAllSessionsOnPage = false;
+	
+	private Map<String, String> eventData;
+	private String source;
+	private String eventType;
+	private boolean sendToAllSessionsOnPage = false;
 
 	public DWREvent(){
 		this.source = EVENT_NO_SOURCE;
 	}
 	
-	public DWREvent(String source, String eventType, Map eventData) {
+	public DWREvent(String source, String eventType, Map<String, String> eventData) {
 		this.source = source;
 		this.eventType = eventType;
 		this.eventData = eventData;
@@ -34,8 +35,7 @@ public class DWREvent implements Serializable{ //extends EventObject{ cannot ext
 		return eventData;
 	}
 
-
-	public void setEventData(Map eventData) {
+	public void setEventData(Map<String, String> eventData) {
 		this.eventData = eventData;
 	}
 
@@ -49,7 +49,6 @@ public class DWREvent implements Serializable{ //extends EventObject{ cannot ext
 	public void setEventType(String eventType) {
 		this.eventType = eventType;
 	}
-	
 	
 	public boolean isSetSendToAllSessionsOnPage() {
 		return sendToAllSessionsOnPage;
@@ -74,7 +73,5 @@ public class DWREvent implements Serializable{ //extends EventObject{ cannot ext
 	public void setSource(String source) {
 		this.source = source;
 	}
-	
-	
 	
 }

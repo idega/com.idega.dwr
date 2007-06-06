@@ -33,10 +33,11 @@ import com.idega.business.IBOServiceBean;
 //TODO enable Class (style) registration of listeners with bean references, beanId, class...
 public class DWREventServiceBean extends IBOServiceBean implements DWREventService {
 
+	private static final long serialVersionUID = 1L;
 
 	private static final Log log = LogFactory.getLog(DWREventServiceBean.class);	
 	
-	private LinkedList listeners = new LinkedList();
+	private LinkedList<DWREventListener> listeners = new LinkedList<DWREventListener>();
 	
 
 	/**
@@ -115,11 +116,11 @@ public class DWREventServiceBean extends IBOServiceBean implements DWREventServi
 		executeScriptForAllPages(script);
 	}
 
-	public void registerListener(DWREventListener listener) {
+	public void registerListener(DWREventListenerBean listener) {
 		listeners.add(listener);
 	}
 
-	public void registerListenerByEventType(String eventType, DWREventListener listener) {
+	public void registerListenerByEventType(String eventType, DWREventListenerBean listener) {
 		// TODO Auto-generated method stub
 		listeners.add(listener);	
 	}

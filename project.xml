@@ -5,7 +5,7 @@
   <pomVersion>3</pomVersion>
   <artifactId>com.idega.dwr</artifactId>
   <name>DWR easy ajax for java, IdegaWeb integration</name>
-  <currentVersion>1.1</currentVersion>
+  <currentVersion>2.0.1</currentVersion>
   <organization>Idega Software</organization>
   <inceptionYear>2006</inceptionYear>
   <shortDescription>IdegaWeb integration of the DWR ajax framework for direct javascript to java method calls, see website at getahead.ltd.uk</shortDescription>
@@ -33,7 +33,7 @@
     <dependency>
       <groupId>dwr</groupId>
       <artifactId>dwr</artifactId>
-      <version>1.1</version>
+      <version>2.0.1</version>
       <type>jar</type>
       <url>http://getahead.ltd.uk/dwr/</url>
       <properties>

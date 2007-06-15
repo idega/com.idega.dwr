@@ -1,5 +1,5 @@
 /*
- * $Id: DWRExtendedServlet.java,v 1.6 2007/02/15 15:00:31 valdas Exp $ Created on Apr 18,
+ * $Id: DWRExtendedServlet.java,v 1.2.2.1 2007/06/15 16:29:49 eiki Exp $ Created on Apr 18,
  * 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -33,10 +33,10 @@ import com.idega.idegaweb.JarLoader;
  * auto loading of dwr.xml config files from <br>
  * inside idegaweb bundle jar files.
  * 
- * Last modified: $Date: 2007/02/15 15:00:31 $ by $Author: valdas $
+ * Last modified: $Date: 2007/06/15 16:29:49 $ by $Author: eiki $
  * 
  * @author <a href="mailto:eiki@idega.com">Eirikur S. Hrafnsson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.2.2.1 $
  */
 public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 
@@ -47,7 +47,6 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 		super();
 	}
 
-	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		

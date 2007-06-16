@@ -48,5 +48,10 @@
       <name>1.1</name>
       <tag>DWR_1_1</tag>
     </version>
+    <version>
+      <id>2.0.1</id>
+      <name>2.0.1</name>
+      <tag>DWR_2_0_1</tag>
+    </version>
   </versions>
 </project>

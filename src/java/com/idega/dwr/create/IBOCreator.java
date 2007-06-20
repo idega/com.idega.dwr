@@ -1,5 +1,5 @@
 /*
- * $Id: IBOCreator.java,v 1.2 2006/11/16 11:10:04 valdas Exp $
+ * $Id: IBOCreator.java,v 1.3 2007/06/20 16:07:09 justinas Exp $
  * Created on Apr 19, 2006
  *
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -24,10 +24,10 @@ import com.idega.presentation.IWContext;
  * This custom creator is registered in the DWRExtendedServlet configure method.<br>
  * The creator key is "ibo"
  * 
- *  Last modified: $Date: 2006/11/16 11:10:04 $ by $Author: valdas $
+ *  Last modified: $Date: 2007/06/20 16:07:09 $ by $Author: justinas $
  * 
  * @author <a href="mailto:eiki@idega.com">eiki</a>
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class IBOCreator extends NewCreator {
 
@@ -49,7 +49,8 @@ public class IBOCreator extends NewCreator {
 		else if(SESSION.equals(scope)){
 			try {
 				IWContext iwc = IWContext.getInstance();
-				return IBOLookup.getSessionInstance(iwc, getClass());
+//				return IBOLookup.getSessionInstance(iwc, getClass());
+				return IBOLookup.getSessionInstance(iwc, getType());
 			}
 			catch (IBOLookupException e) {
 				e.printStackTrace();

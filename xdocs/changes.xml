@@ -5,6 +5,12 @@
   </properties>
   <body>
   
+	<release version="1.1.1" date="2007-07-11">
+      <action dev="valdas" type="update">
+		Backed DWR to 1.1
+      </action>
+    </release>
+  
     <release version="2.0.1" date="2007-06-16">
       <action dev="eiki" type="update">
       	Updating DWR to 2.0.1 and changing the version number to reflect that.

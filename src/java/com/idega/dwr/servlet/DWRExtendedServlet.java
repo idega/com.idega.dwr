@@ -1,5 +1,5 @@
 /*
- * $Id: DWRExtendedServlet.java,v 1.2.2.1 2007/06/15 16:29:49 eiki Exp $ Created on Apr 18,
+ * $Id: DWRExtendedServlet.java,v 1.2.2.2 2007/07/11 15:07:48 valdas Exp $ Created on Apr 18,
  * 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -10,19 +10,20 @@
 package com.idega.dwr.servlet;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-
-import org.directwebremoting.extend.CreatorManager;
-import org.directwebremoting.impl.DwrXmlConfigurator;
-import org.directwebremoting.servlet.DwrServlet;
-
+import javax.xml.parsers.ParserConfigurationException;
+import org.xml.sax.SAXException;
+import uk.ltd.getahead.dwr.Configuration;
+import uk.ltd.getahead.dwr.Container;
+import uk.ltd.getahead.dwr.CreatorManager;
+import uk.ltd.getahead.dwr.DWRServlet;
+import uk.ltd.getahead.dwr.WebContextFactory;
 import com.idega.dwr.create.IBOCreator;
 import com.idega.idegaweb.IWMainApplication;
 import com.idega.idegaweb.IWModuleLoader;
@@ -33,46 +34,53 @@ import com.idega.idegaweb.JarLoader;
  * auto loading of dwr.xml config files from <br>
  * inside idegaweb bundle jar files.
  * 
- * Last modified: $Date: 2007/06/15 16:29:49 $ by $Author: eiki $
+ * Last modified: $Date: 2007/07/11 15:07:48 $ by $Author: valdas $
  * 
  * @author <a href="mailto:eiki@idega.com">Eirikur S. Hrafnsson</a>
- * @version $Revision: 1.2.2.1 $
+ * @version $Revision: 1.2.2.2 $
  */
-public class DWRExtendedServlet extends DwrServlet implements JarLoader {
+public class DWRExtendedServlet extends DWRServlet implements JarLoader {
 
-	private static final long serialVersionUID = 3422209939690053482L;
-	private static final Logger log = Logger.getLogger(DWRExtendedServlet.class.getName());
+	private static final long serialVersionUID = 7986993805528301594L;
+	
+	protected Configuration dwrConfig;
 
 	public DWRExtendedServlet() {
 		super();
 	}
 
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see uk.ltd.getahead.dwr.AbstractDWRServlet#configure(javax.servlet.ServletConfig,
+	 *      uk.ltd.getahead.dwr.Configuration)
+	 */
+	public void configure(ServletConfig config, Configuration configuration) throws ServletException {
 		// First add our custom creator
 		registerIBOCreator();
-		
-		// Load the configs from bundles
+		// load the configs from bundles
+		this.dwrConfig = configuration;
 		loadDWRConfigFilesFromBundles();
+		// end with the default impl
+		super.configure(config, this.dwrConfig);
 	}
 
 	/**
-	 * Add a new type of dwr object for service or session beans
+	 * 
 	 */
 	protected void registerIBOCreator() {
-		CreatorManager cman = (CreatorManager) getContainer().getBean(CreatorManager.class.getName());
-		cman.addCreatorType("ibo", IBOCreator.class.getName());
+		Container container = WebContextFactory.get().getContainer();
+		CreatorManager cman = (CreatorManager) container.getBean(CreatorManager.class.getName());
+		cman.addCreatorType("ibo", IBOCreator.class);
 	}
 
-	
 	public void loadDWRConfigFilesFromBundles() {
 		IWMainApplication iwma = IWMainApplication.getIWMainApplication(getServletContext());
 		IWModuleLoader loader = new IWModuleLoader(iwma, getServletContext());
 		loader.getJarLoaders().add(this);
 		loader.loadBundlesFromJars();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -80,21 +88,25 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 	 *      java.lang.String)
 	 */
 	public void loadJar(File bundleJarFile, JarFile jarFile, String jarPath) {
-		JarEntry entry = jarFile.getJarEntry("WEB-INF/dwr.xml");
-
-		if (entry != null) {
-			try {
-				// The dwr.xml from within the JAR file.
-				InputStream stream = jarFile.getInputStream(entry);
-				
-	            DwrXmlConfigurator dwrFile = new DwrXmlConfigurator();
-	            dwrFile.setInputStream(stream);
-
-	            // Container is a protected variable in the super class
-	            dwrFile.configure(getContainer());
-			}
-			catch (Exception e) {
-				log.log(Level.WARNING, "Error loading dwr.xml from " + jarFile.getName(), e);
+		Enumeration entries = jarFile.entries();
+		while (entries.hasMoreElements()) {
+			JarEntry entry = (JarEntry) entries.nextElement();
+			// JarFileEntry entryName = (JarFileEntry)entries.nextElement();
+			String entryName = entry.getName();
+			if (entryName.endsWith("dwr.xml")) {
+				try {
+					InputStream stream = jarFile.getInputStream(entry);
+					this.dwrConfig.addConfig(stream);
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+				catch (ParserConfigurationException e) {
+					e.printStackTrace();
+				}
+				catch (SAXException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

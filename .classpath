@@ -7,7 +7,7 @@
   </classpathentry>
   <classpathentry kind="src" path="/com.idega.core">
   </classpathentry>
-  <classpathentry kind="var" path="MAVEN_REPO/dwr/jars/dwr-2.0.1.jar">
+  <classpathentry kind="var" path="MAVEN_REPO/dwr/jars/dwr-1.1.jar">
   </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/jdom/jars/jdom-1.0.jar">
   </classpathentry>

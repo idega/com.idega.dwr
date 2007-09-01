@@ -11,7 +11,7 @@
   <groupId>com.idega.block.platform</groupId>
   <artifactId>com.idega.dwr</artifactId>
   <name>DWR easy ajax for java, IdegaWeb integration</name>
-  <version>2.0</version>
+  <version>${com.idega.block.platform-com.idega.dwr-version}</version>
   <inceptionYear>2006</inceptionYear>
   <description>IdegaWeb integration of the DWR ajax framework for direct javascript to java method calls, see website at getahead.ltd.uk</description>
   <scm>

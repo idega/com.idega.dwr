@@ -1,6 +1,9 @@
 package com.idega.dwr.event;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,11 +20,18 @@ public class DWREvent implements Serializable{ //extends EventObject{ cannot ext
 	private String source;
 	private String eventType;
 	private boolean sendToAllSessionsOnPage = false;
+	private final Date eventDate = new Date();//timestamp
+	private boolean result = false;
+	private List<DWREvent> nestedEvents = new LinkedList<DWREvent>();
 
 	public DWREvent(){
 		this.source = EVENT_NO_SOURCE;
 	}
 	
+	public Date getEventDate() {
+		return eventDate;
+	}
+
 	public DWREvent(String source, String eventType, Map<String, String> eventData) {
 		this.source = source;
 		this.eventType = eventType;
@@ -74,4 +84,39 @@ public class DWREvent implements Serializable{ //extends EventObject{ cannot ext
 		this.source = source;
 	}
 	
+	public String toString(){
+		StringBuffer buf = new StringBuffer(source).append(':')
+		.append(eventType).append(':')
+		.append(eventDate).append(':')
+		.append(sendToAllSessionsOnPage).append(':')
+		.append(eventData);
+		return buf.toString();
+	}	
+	
+	/**
+	 * Set by DWREventService, false mean the event processing somehow failed
+	 * @param result
+	 */
+	public void setResult(boolean result){
+		this.result = result;
+	}
+	
+	/**
+	 * @return false mean the event processing somehow failed
+	 */
+	public boolean getResult(){
+		return this.result;
+	}
+
+	public List<DWREvent> getNestedEvents() {
+		return nestedEvents;
+	}
+
+	public void setNestedEvents(List<DWREvent> nestedEvents) {
+		this.nestedEvents = nestedEvents;
+	}
+	
+	public void addNestedEvent(DWREvent event){
+		this.nestedEvents.add(event);
+	}
 }

@@ -45,17 +45,23 @@ public class DWREventServiceBean extends IBOServiceBean implements DWREventServi
 	 * @param event
 	 * @return
 	 */
-	public boolean fireEvent(DWREvent event) {
+	public DWREvent fireEvent(DWREvent event) {
+		for (Iterator dwrListeners = listeners.iterator(); dwrListeners.hasNext();) {
+			DWREventListener listener = (DWREventListener) dwrListeners.next();
+			if(!listener.processEvent(event)){
+				event.setResult(false);
+				return event;
+			}
+		}
 		
-		//executeScriptForAllPages(script)
+		event.setResult(true);
 		
-		return true;
+		return event;
 	}
 	
-	public boolean fireEventToAllSessions(DWREvent event){
-		
-		
-		return true;
+	public DWREvent fireEventToAllSessions(DWREvent event){
+		//todo implement
+		return fireEvent(event);
 	}
 	
 	
@@ -116,13 +122,33 @@ public class DWREventServiceBean extends IBOServiceBean implements DWREventServi
 		executeScriptForAllPages(script);
 	}
 
-	public void registerListener(DWREventListenerBean listener) {
-		listeners.add(listener);
+
+	
+	/**
+	 * The method to register listeners
+	 * @param listener
+	 */
+	public void registerListener(DWREventListener listener) {
+		//this might not be enoug to ensure only one listener of a certain type
+		if(!listeners.contains(listener)){
+			listeners.add(listener);
+		}
 	}
 
-	public void registerListenerByEventType(String eventType, DWREventListenerBean listener) {
-		// TODO Auto-generated method stub
+	/**
+	 * The method to register a javascript listener through DWR
+	 * @param listener
+	 * */
+	public void registerListenerBean(DWREventListenerBean listener) {
+		registerListener(listener);
+	}
+	
+	public void registerListenerByEventType(String eventType, DWREventListener listener) {
 		listeners.add(listener);	
+	}
+	
+	public void registerListenerBeanByEventType(String eventType, DWREventListenerBean listener) {
+		registerListenerByEventType(eventType,listener);
 	}
 	
 	

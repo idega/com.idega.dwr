@@ -5,6 +5,9 @@
 	<allow>
 		<create creator="ibo" javascript="DWREventService" scope="application">
 			<param name="class" value="com.idega.dwr.event.DWREventService"/>
+			
+			
+			
  		</create>
  		<convert converter="bean" match="com.idega.dwr.event.DWREvent"/>
  		<convert converter="bean" match="com.idega.dwr.event.DWREventListenerBean"/>
@@ -17,8 +20,8 @@
 			
 			DWREventService.fireEvent(DWREvent);
 			DWREventService.fireEventToAllSessions(DWREvent);
-			DWREventService.registerListener(DWREventListenerBean);
-			DWREventService.registerListenerByEventType(String, DWREventListenerBean);
+			DWREventService.registerListenerBean(DWREventListenerBean);
+			DWREventService.registerListenerBeanByEventType(String, DWREventListenerBean);
   		]]>
 	</signatures>
 

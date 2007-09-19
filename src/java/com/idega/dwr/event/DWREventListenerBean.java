@@ -19,4 +19,5 @@ public class DWREventListenerBean implements DWREventListener {
 		this.event = event;
 	}
 	
+	
 }

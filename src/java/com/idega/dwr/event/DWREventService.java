@@ -4,12 +4,16 @@ import com.idega.business.IBOService;
 
 public interface DWREventService extends IBOService {
 	
-	public void registerListener(DWREventListenerBean listener);
+	public void registerListenerBean(DWREventListenerBean listener);
 	
-	public void registerListenerByEventType(String eventType, DWREventListenerBean listener);
+	public void registerListener(DWREventListener listener);
 	
-	public boolean fireEvent(DWREvent event);
+	public void registerListenerBeanByEventType(String eventType, DWREventListenerBean listener);
 	
-	public boolean fireEventToAllSessions(DWREvent event);
+	public void registerListenerByEventType(String eventType, DWREventListener listener);
+	
+	public DWREvent fireEvent(DWREvent event);
+	
+	public DWREvent fireEventToAllSessions(DWREvent event);
 	
 }

@@ -58,7 +58,7 @@ function registerListenerByEventTypeCallback() {
 }
 
 /**
-*Calls DWREventService.fireEvent and then calls your custom callback method our the standard method if undefined. 
+*Calls DWREventService.fireEvent and then calls your custom callback method or the standard method if undefined. 
 *The standard method fires the same event on the client side. To listen to a method use mootools element.addEvents(...)
 **/
 function dwrFireEvent(dwrEvent, callBackMethod){

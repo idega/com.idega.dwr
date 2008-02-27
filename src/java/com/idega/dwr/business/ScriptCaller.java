@@ -18,6 +18,8 @@ public class ScriptCaller implements Runnable {
 	
 	public ScriptCaller(ScriptBuffer script) {
 		this.script = script;
+		
+		sendToAllSessions = true;
 	}
 	
 	public ScriptCaller(ScriptBuffer script, boolean sendToAllSessions) {

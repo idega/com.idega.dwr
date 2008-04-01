@@ -6,7 +6,6 @@
   <artifactId>com.idega.dwr</artifactId>
   <name>DWR easy ajax for java, IdegaWeb integration</name>
   <currentVersion>1.1.1</currentVersion>
-  <organization>Idega Software</organization>
   <inceptionYear>2006</inceptionYear>
   <shortDescription>IdegaWeb integration of the DWR ajax framework for direct javascript to java method calls, see website at getahead.ltd.uk</shortDescription>
   <developers>

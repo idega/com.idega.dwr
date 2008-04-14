@@ -1,5 +1,5 @@
 /*
- * $Id: DWRExtendedServlet.java,v 1.6 2007/02/15 15:00:31 valdas Exp $ Created on Apr 18,
+ * $Id: DWRExtendedServlet.java,v 1.7 2008/04/14 23:38:59 valdas Exp $ Created on Apr 18,
  * 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -24,6 +24,7 @@ import org.directwebremoting.impl.DwrXmlConfigurator;
 import org.directwebremoting.servlet.DwrServlet;
 
 import com.idega.dwr.create.IBOCreator;
+import com.idega.dwr.util.IWContinuation;
 import com.idega.idegaweb.IWMainApplication;
 import com.idega.idegaweb.IWModuleLoader;
 import com.idega.idegaweb.JarLoader;
@@ -33,10 +34,10 @@ import com.idega.idegaweb.JarLoader;
  * auto loading of dwr.xml config files from <br>
  * inside idegaweb bundle jar files.
  * 
- * Last modified: $Date: 2007/02/15 15:00:31 $ by $Author: valdas $
+ * Last modified: $Date: 2008/04/14 23:38:59 $ by $Author: valdas $
  * 
  * @author <a href="mailto:eiki@idega.com">Eirikur S. Hrafnsson</a>
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 
@@ -50,6 +51,8 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
+		
+		IWContinuation.setUseJetty(false);
 		
 		// First add our custom creator
 		registerIBOCreator();

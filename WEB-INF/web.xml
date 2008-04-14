@@ -5,11 +5,6 @@
  http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	version="2.4">
 
-<!--
-  <display-name>DWR (Direct Web Remoting)</display-name>
-  <description>A demo of how to call Java on the server directly from Javascript on the client,http://getahead.ltd.uk/dwr/ </description>
--->
-
 <filter>
   <filter-name>DwrFacesFilter</filter-name>
   <filter-class>org.directwebremoting.faces.FacesExtensionFilter</filter-class>
@@ -46,13 +41,33 @@
       <param-value>true</param-value>
     </init-param>
     <init-param>
+    	<param-name>logLevel</param-name>
+    	<param-value>ERROR</param-value>
+    </init-param>
+    <init-param>
       <param-name>scriptCompressed</param-name>
-      <param-value>false</param-value>
+      <param-value>true</param-value>
     </init-param>
     <init-param>
     	<param-name>crossDomainSessionSecurity</param-name>
     	<param-value>false</param-value>
     </init-param>
+    
+    <!-- Early Closing Mode -->
+    <init-param>
+    	<param-name>maxWaitAfterWrite</param-name>
+		<param-value>1000</param-value>
+	</init-param>
+	
+	<!-- Polling Mode -->
+	<init-param>
+ 		<param-name>org.directwebremoting.extend.ServerLoadMonitor</param-name>
+		<param-value>org.directwebremoting.impl.PollingServerLoadMonitor</param-value>
+	</init-param>
+	<init-param>
+		<param-name>disconnectedTime</param-name>
+		<param-value>60000</param-value> <!-- 60 seconds will be enough to allow a web server to handle a very large number of clients -->
+	</init-param>
     
     <load-on-startup>1</load-on-startup>
   </servlet>

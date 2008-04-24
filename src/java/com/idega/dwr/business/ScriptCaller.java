@@ -57,7 +57,6 @@ public class ScriptCaller implements Runnable {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	private List<ScriptSession> getAllCurrentPageSessions() {
 		WebContext wctx = WebContextFactory.get();
 		if (wctx == null) {
@@ -99,5 +98,4 @@ public class ScriptCaller implements Runnable {
 		}
 		sendScript();
 	}
-
 }

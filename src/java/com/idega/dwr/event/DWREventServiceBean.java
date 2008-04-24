@@ -117,13 +117,11 @@ public class DWREventServiceBean extends IBOServiceBean implements DWREventServi
 	/**
 	 * Closes loading layer in client's browser
 	 */
-	private void closeLoadingMessage() {
+	/*private void closeLoadingMessage() {
 		ScriptBuffer script = new ScriptBuffer("closeLoadingMessage();");
 		executeScriptForAllPages(script);
-	}
+	}*/
 
-
-	
 	/**
 	 * The method to register listeners
 	 * @param listener
@@ -150,6 +148,4 @@ public class DWREventServiceBean extends IBOServiceBean implements DWREventServi
 	public void registerListenerBeanByEventType(String eventType, DWREventListenerBean listener) {
 		registerListenerByEventType(eventType,listener);
 	}
-	
-	
 }

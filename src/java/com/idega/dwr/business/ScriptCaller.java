@@ -8,35 +8,42 @@ import java.util.List;
 import org.directwebremoting.ScriptBuffer;
 import org.directwebremoting.ScriptSession;
 import org.directwebremoting.WebContext;
-import org.directwebremoting.WebContextFactory;
 
 public class ScriptCaller implements Runnable {
+	
+	private WebContext webContext = null;
 	
 	private ScriptBuffer script = null;
 	private String uri = null;
 	private boolean sendToAllSessions = false;
 	
-	public ScriptCaller(ScriptBuffer script) {
+	public ScriptCaller(WebContext webContext, ScriptBuffer script) {
+		this.webContext = webContext;
 		this.script = script;
 		
 		sendToAllSessions = true;
 	}
 	
-	public ScriptCaller(ScriptBuffer script, boolean sendToAllSessions) {
-		this(script);
+	public ScriptCaller(WebContext webContext, ScriptBuffer script, boolean sendToAllSessions) {
+		this(webContext, script);
 		
 		this.sendToAllSessions = sendToAllSessions;
 	}
 	
-	public ScriptCaller(ScriptBuffer script, String uri, boolean sendToAllSessions) {
-		this(script);
+	public ScriptCaller(WebContext webContext, ScriptBuffer script, String uri, boolean sendToAllSessions) {
+		this(webContext, script);
 		
 		this.uri = uri;
 		this.sendToAllSessions = sendToAllSessions;
 	}
 	
 	private void sendScript() {
-		ScriptSession ss = WebContextFactory.get().getScriptSession();
+		WebContext webContext = getWebContext();
+		if (webContext == null) {
+			return;
+		}
+		
+		ScriptSession currentSession = webContext.getScriptSession();
 		
 		List<ScriptSession> allPages = getAllCurrentPageSessions();
 		if (allPages == null) {
@@ -44,29 +51,38 @@ public class ScriptCaller implements Runnable {
 		}
 		
 		ScriptSession session = null;
+		String sessionId = null;
+		List<String> sessionsWithScripts = new ArrayList<String>();
 		for (int i = 0; i < allPages.size(); i++) {
 			session = allPages.get(i);
-			if (sendToAllSessions) {
-				session.addScript(script);
-			}
-			else {
-				if (ss != null && !session.equals(ss)) {
+			
+			sessionId = session.getId();
+			if (!session.isInvalidated() && !sessionsWithScripts.contains(sessionId)) {
+				sessionsWithScripts.add(sessionId);
+				
+				if (sendToAllSessions) {
 					session.addScript(script);
+				}
+				else {
+					if (currentSession != null && !session.equals(currentSession)) {
+						session.addScript(script);
+					}
 				}
 			}
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private List<ScriptSession> getAllCurrentPageSessions() {
-		WebContext wctx = WebContextFactory.get();
-		if (wctx == null) {
+		WebContext webContext = getWebContext();
+		if (webContext == null) {
 			return null;
 		}
 		
 		Collection currentPageSessions = null;
-		String currentPage = wctx.getCurrentPage();
+		String currentPage = webContext.getCurrentPage();
 		if (currentPage != null) {
-			currentPageSessions = wctx.getScriptSessionsByPage(currentPage);
+			currentPageSessions = webContext.getScriptSessionsByPage(currentPage);
 		}
 		if (currentPageSessions == null) {
 			currentPageSessions = new ArrayList();
@@ -74,7 +90,7 @@ public class ScriptCaller implements Runnable {
 		
 		if (uri != null) {
 			//	Looking for sessions in custom uri
-			Collection pages = wctx.getScriptSessionsByPage(uri);
+			Collection pages = webContext.getScriptSessionsByPage(uri);
 			if (pages != null) {
 				currentPageSessions.addAll(pages);
 			}
@@ -90,6 +106,10 @@ public class ScriptCaller implements Runnable {
 		}
 		
 		return allPages;
+	}
+	
+	private WebContext getWebContext() {
+		return webContext;
 	}
 
 	public void run() {

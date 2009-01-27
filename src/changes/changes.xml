@@ -1,0 +1,59 @@
+    <document>
+  <properties>
+    <title>Faces changes</title>
+    <author email='tryggvi@idega.com'>Tryggvi Larusson</author>
+  </properties>
+  <body>
+  
+	<release date='2009-01-27' description='First 4.1.x Release' version='4.1.0'>
+          <action type='add' dev='tryggvil'>First 4.1.x Release</action>
+        </release>
+        <release date='2007-07-11' version='1.1.1'>
+      <action type='update' dev='valdas'>
+		Backed DWR to 1.1
+      </action>
+    </release>
+  
+    <release date='2007-06-16' version='2.0.1'>
+      <action type='update' dev='eiki'>
+      	Updating DWR to 2.0.1 and changing the version number to reflect that.
+      </action>      
+    </release>
+    
+  	<release date='2005-06-19' version='3.1.0'>
+      <action type='update' dev='tryggvil'>
+      	Declaration of version for including in ePlatform release 3.1
+      </action>      
+    </release>
+  
+	<release date='2005-09-15' version='1.0.3'>
+      <action type='update' dev='tryggvil'>
+        Declaration of version for use with 3.0.6 core.
+      </action>              
+    </release>
+        <release date='2005-05-25' version='1.0.2'>
+      <action type='update' dev='tryggvil'>
+        Declaration of version for use with 3.0.5 core.
+      </action>              
+    </release>
+      <release date='2005-04-06' version='1.0.1'>
+      <action type='update' dev='tryggvil'>
+        Declaration of version for use with 3.0.4 core.
+      </action>              
+    </release>
+    
+    <release date='2005-03-10' version='1.0.0'>
+      <action type='update' dev='tryggvil'>
+        Declaration of version for use with 3.0.0 core.
+      </action>              
+    </release>
+
+    <release date='2004-07-10' version='0.9'>
+      <action type='update' dev='tryggvil'>
+        Declaration of version for use with 1.9 core.
+      </action>              
+    </release>
+
+  </body>
+</document>
+

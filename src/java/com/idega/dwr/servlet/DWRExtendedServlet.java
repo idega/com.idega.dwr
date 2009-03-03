@@ -1,5 +1,5 @@
 /*
- * $Id: DWRExtendedServlet.java,v 1.7 2008/04/14 23:38:59 valdas Exp $ Created on Apr 18,
+ * $Id: DWRExtendedServlet.java,v 1.8 2009/03/03 15:10:24 valdas Exp $ Created on Apr 18,
  * 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -20,24 +20,27 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
 import org.directwebremoting.extend.CreatorManager;
+import org.directwebremoting.faces.JsfCreator;
 import org.directwebremoting.impl.DwrXmlConfigurator;
 import org.directwebremoting.servlet.DwrServlet;
+import org.directwebremoting.spring.SpringCreator;
 
 import com.idega.dwr.create.IBOCreator;
 import com.idega.dwr.util.IWContinuation;
 import com.idega.idegaweb.IWMainApplication;
 import com.idega.idegaweb.IWModuleLoader;
 import com.idega.idegaweb.JarLoader;
+import com.idega.util.IOUtil;
 
 /**
  * This servlet extends the Default implementation of AbstractDWRServlet to add
  * auto loading of dwr.xml config files from <br>
  * inside idegaweb bundle jar files.
  * 
- * Last modified: $Date: 2008/04/14 23:38:59 $ by $Author: valdas $
+ * Last modified: $Date: 2009/03/03 15:10:24 $ by $Author: valdas $
  * 
  * @author <a href="mailto:eiki@idega.com">Eirikur S. Hrafnsson</a>
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 
@@ -55,24 +58,30 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 		IWContinuation.setUseJetty(false);
 		
 		// First add our custom creator
-		registerIBOCreator();
+		registerCreator("ibo", IBOCreator.class.getName());
 		
-		// Load the configs from bundles
+		//	JSF creator
+		registerCreator("jsf", JsfCreator.class.getName());
+		
+		//	Spring creator
+		registerCreator("spring", SpringCreator.class.getName());
+		
+		// Load the configurations from bundles
 		loadDWRConfigFilesFromBundles();
 	}
 
 	/**
-	 * Add a new type of dwr object for service or session beans
+	 * Add a new type of DWR object
 	 */
-	protected void registerIBOCreator() {
+	protected void registerCreator(String creatorName, String creatorClassName) {
 		CreatorManager cman = (CreatorManager) getContainer().getBean(CreatorManager.class.getName());
-		cman.addCreatorType("ibo", IBOCreator.class.getName());
+		cman.addCreatorType(creatorName, creatorClassName);
 	}
 
 	
 	public void loadDWRConfigFilesFromBundles() {
 		IWMainApplication iwma = IWMainApplication.getIWMainApplication(getServletContext());
-		IWModuleLoader loader = new IWModuleLoader(iwma, getServletContext());
+		IWModuleLoader loader = new IWModuleLoader(iwma);
 		loader.getJarLoaders().add(this);
 		loader.loadBundlesFromJars();
 	}
@@ -86,20 +95,25 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 	public void loadJar(File bundleJarFile, JarFile jarFile, String jarPath) {
 		JarEntry entry = jarFile.getJarEntry("WEB-INF/dwr.xml");
 
-		if (entry != null) {
-			try {
-				// The dwr.xml from within the JAR file.
-				InputStream stream = jarFile.getInputStream(entry);
-				
-	            DwrXmlConfigurator dwrFile = new DwrXmlConfigurator();
-	            dwrFile.setInputStream(stream);
+		if (entry == null) {
+			return;
+		}
+		
+		InputStream stream = null;
+		try {
+			// The dwr.xml from within the JAR file.
+			stream = jarFile.getInputStream(entry);
+			
+			DwrXmlConfigurator dwrFile = new DwrXmlConfigurator();
+			dwrFile.setInputStream(stream);
 
-	            // Container is a protected variable in the super class
-	            dwrFile.configure(getContainer());
-			}
-			catch (Exception e) {
-				log.log(Level.WARNING, "Error loading dwr.xml from " + jarFile.getName(), e);
-			}
+			// Container is a protected variable in the super class
+			dwrFile.configure(getContainer());
+		}
+		catch (Exception e) {
+			log.log(Level.WARNING, "Error loading dwr.xml from " + jarFile.getName(), e);
+		} finally {
+			IOUtil.closeInputStream(stream);
 		}
 	}
 }

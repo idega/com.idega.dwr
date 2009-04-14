@@ -9,7 +9,8 @@ public class DWREventServiceHomeImpl extends IBOHomeImpl implements DWREventServ
 
 	private static final long serialVersionUID = -9060952409939359894L;
 
-	public Class getBeanInterfaceClass() {
+	@Override
+	public Class<? extends DWREventService> getBeanInterfaceClass() {
 		return DWREventService.class;
 	}
 

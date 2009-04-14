@@ -17,13 +17,19 @@ public class DWREvent implements Serializable{ //extends EventObject{ cannot ext
 	private static final long serialVersionUID = -1282376140723922324L;
 	
 	private Map<String, String> eventData;
+	
 	private String source;
 	private String eventType;
-	private boolean sendToAllSessionsOnPage = false;
-	private final Date eventDate = new Date();//timestamp
-	private boolean result = false;
+	private String javaScriptFunctionName;
+	
+	private final Date eventDate = new Date(System.currentTimeMillis());
+	
 	private List<DWREvent> nestedEvents = new LinkedList<DWREvent>();
-
+	
+	private boolean useThreading = Boolean.TRUE;
+	private boolean result;
+	private boolean sendToAllSessionsOnPage;
+	
 	public DWREvent(){
 		this.source = EVENT_NO_SOURCE;
 	}
@@ -41,7 +47,7 @@ public class DWREvent implements Serializable{ //extends EventObject{ cannot ext
 	/**
 	 * @return The extra data the event might have added
 	 */
-	public Map getEventData() {
+	public Map<String, String> getEventData() {
 		return eventData;
 	}
 
@@ -84,6 +90,7 @@ public class DWREvent implements Serializable{ //extends EventObject{ cannot ext
 		this.source = source;
 	}
 	
+	@Override
 	public String toString(){
 		StringBuffer buf = new StringBuffer(source).append(':')
 		.append(eventType).append(':')
@@ -119,4 +126,21 @@ public class DWREvent implements Serializable{ //extends EventObject{ cannot ext
 	public void addNestedEvent(DWREvent event){
 		this.nestedEvents.add(event);
 	}
+
+	public boolean isUseThreading() {
+		return useThreading;
+	}
+
+	public void setUseThreading(boolean useThreading) {
+		this.useThreading = useThreading;
+	}
+
+	public String getJavaScriptFunctionName() {
+		return javaScriptFunctionName;
+	}
+
+	public void setJavaScriptFunctionName(String javaScriptFunctionName) {
+		this.javaScriptFunctionName = javaScriptFunctionName;
+	}
+	
 }

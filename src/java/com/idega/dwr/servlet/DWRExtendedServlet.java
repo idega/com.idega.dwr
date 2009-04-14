@@ -1,5 +1,5 @@
 /*
- * $Id: DWRExtendedServlet.java,v 1.8 2009/03/03 15:10:24 valdas Exp $ Created on Apr 18,
+ * $Id: DWRExtendedServlet.java,v 1.9 2009/04/14 13:59:03 valdas Exp $ Created on Apr 18,
  * 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -19,12 +19,13 @@ import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
+import org.directwebremoting.extend.Configurator;
 import org.directwebremoting.extend.CreatorManager;
 import org.directwebremoting.faces.JsfCreator;
 import org.directwebremoting.impl.DwrXmlConfigurator;
 import org.directwebremoting.servlet.DwrServlet;
 import org.directwebremoting.spring.SpringCreator;
-
+import com.idega.dwr.annotations.IdegaAnnotationsConfigurator;
 import com.idega.dwr.create.IBOCreator;
 import com.idega.dwr.util.IWContinuation;
 import com.idega.idegaweb.IWMainApplication;
@@ -37,10 +38,10 @@ import com.idega.util.IOUtil;
  * auto loading of dwr.xml config files from <br>
  * inside idegaweb bundle jar files.
  * 
- * Last modified: $Date: 2009/03/03 15:10:24 $ by $Author: valdas $
+ * Last modified: $Date: 2009/04/14 13:59:03 $ by $Author: valdas $
  * 
  * @author <a href="mailto:eiki@idega.com">Eirikur S. Hrafnsson</a>
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 
@@ -66,8 +67,20 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 		//	Spring creator
 		registerCreator("spring", SpringCreator.class.getName());
 		
+		//	Configure annotations
+		registerAnnotations();
+		
 		// Load the configurations from bundles
 		loadDWRConfigFilesFromBundles();
+	}
+	
+	/**
+	 * Checks ePlatform's classes for DWR annotations
+	 */
+	protected void registerAnnotations() {
+		Configurator configurator = new IdegaAnnotationsConfigurator();
+		((IdegaAnnotationsConfigurator) configurator).setServletContext(getServletContext());
+        configurator.configure(getContainer());
 	}
 
 	/**

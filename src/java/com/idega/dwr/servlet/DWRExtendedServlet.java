@@ -1,5 +1,5 @@
 /*
- * $Id: DWRExtendedServlet.java,v 1.9 2009/04/14 13:59:03 valdas Exp $ Created on Apr 18,
+ * $Id: DWRExtendedServlet.java,v 1.10 2009/05/08 08:46:00 valdas Exp $ Created on Apr 18,
  * 2006
  * 
  * Copyright (C) 2006 Idega Software hf. All Rights Reserved.
@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
+import org.directwebremoting.extend.AbstractCreator;
 import org.directwebremoting.extend.Configurator;
 import org.directwebremoting.extend.CreatorManager;
 import org.directwebremoting.faces.JsfCreator;
@@ -38,10 +39,10 @@ import com.idega.util.IOUtil;
  * auto loading of dwr.xml config files from <br>
  * inside idegaweb bundle jar files.
  * 
- * Last modified: $Date: 2009/04/14 13:59:03 $ by $Author: valdas $
+ * Last modified: $Date: 2009/05/08 08:46:00 $ by $Author: valdas $
  * 
  * @author <a href="mailto:eiki@idega.com">Eirikur S. Hrafnsson</a>
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 
@@ -59,13 +60,13 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 		IWContinuation.setUseJetty(false);
 		
 		// First add our custom creator
-		registerCreator("ibo", IBOCreator.class.getName());
+		registerCreator("ibo", IBOCreator.class);
 		
 		//	JSF creator
-		registerCreator("jsf", JsfCreator.class.getName());
+		registerCreator("jsf", JsfCreator.class);
 		
 		//	Spring creator
-		registerCreator("spring", SpringCreator.class.getName());
+		registerCreator("spring", SpringCreator.class);
 		
 		//	Configure annotations
 		registerAnnotations();
@@ -86,11 +87,10 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 	/**
 	 * Add a new type of DWR object
 	 */
-	protected void registerCreator(String creatorName, String creatorClassName) {
+	protected void registerCreator(String creatorName, Class<? extends AbstractCreator> creatorClass) {
 		CreatorManager cman = (CreatorManager) getContainer().getBean(CreatorManager.class.getName());
-		cman.addCreatorType(creatorName, creatorClassName);
+		cman.addCreatorType(creatorName, creatorClass.getName());
 	}
-
 	
 	public void loadDWRConfigFilesFromBundles() {
 		IWMainApplication iwma = IWMainApplication.getIWMainApplication(getServletContext());

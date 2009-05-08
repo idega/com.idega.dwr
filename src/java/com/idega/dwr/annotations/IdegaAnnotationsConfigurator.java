@@ -17,9 +17,9 @@ import com.idega.dwr.business.DWRAnnotationPersistance;
 * This helps to avoid filling info in web.xml (providing class names of classes that uses DWR annotations)
 * 
 * @author <a href="mailto:valdas@idega.com">Valdas Žemaitis</a>
-* @version $Revision: 1.1 $
+* @version $Revision: 1.2 $
 *
-* Last modified: $Date: 2009/04/14 13:59:03 $ by: $Author: valdas $
+* Last modified: $Date: 2009/05/08 08:45:47 $ by: $Author: valdas $
 */
 public class IdegaAnnotationsConfigurator extends AnnotationsConfigurator {
 
@@ -54,10 +54,4 @@ public class IdegaAnnotationsConfigurator extends AnnotationsConfigurator {
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
 	}
-
-	@Override
-	protected void processClass(Class<?> clazz, Container container) throws InstantiationException, IllegalAccessException {
-		super.processClass(clazz, container);
-	}
-
 }

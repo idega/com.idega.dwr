@@ -1,5 +1,7 @@
 package com.idega.dwr.reverse;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +18,7 @@ import com.idega.util.StringUtil;
  * @param WebContext
  * @param ScriptBuffer - JavaScript action to execute
  * @param uri - page where to execute action
- * @param sendToAllSessions - if FALSE when action isn't executed in event's original page
+ * @param invokeOriginalPage - if TRUE when action is executed in event's original page
  * @param task - possibility to provide (and execute) code block to execute before scripts are fired to page(s)
  * 
  * @author <a href="mailto:valdas@idega.com">Valdas Žemaitis</a>
@@ -34,39 +36,41 @@ public class ScriptCaller implements Runnable {
 	
 	private String uri;
 	
-	private boolean sendToAllSessions;
+	private boolean invokeOriginalPage;
 	
 	private Runnable task;
+	
+	private Collection<String> httpSessionsServed;
 	
 	public ScriptCaller(String javaScriptAction) {
 		this(WebContextFactory.get(), new ScriptBuffer(javaScriptAction), Boolean.TRUE);
 	}
 	
-	public ScriptCaller(String javaScriptAction, boolean sendToAllSessions) {
-		this(WebContextFactory.get(), new ScriptBuffer(javaScriptAction), null, sendToAllSessions);
+	public ScriptCaller(String javaScriptAction, boolean invokeOriginalPage) {
+		this(WebContextFactory.get(), new ScriptBuffer(javaScriptAction), null, invokeOriginalPage);
 	}
 	
-	public ScriptCaller(ScriptBuffer script, boolean sendToAllSessions) {
-		this(WebContextFactory.get(), script, null, sendToAllSessions);
+	public ScriptCaller(ScriptBuffer script, boolean invokeOriginalPage) {
+		this(WebContextFactory.get(), script, null, invokeOriginalPage);
 	}
 	
 	public ScriptCaller(WebContext webContext, ScriptBuffer script) {
 		this(webContext, script, null, Boolean.TRUE);
 	}
 	
-	public ScriptCaller(WebContext webContext, ScriptBuffer script, boolean sendToAllSessions) {
-		this(webContext, script, null, sendToAllSessions);
+	public ScriptCaller(WebContext webContext, ScriptBuffer script, boolean invokeOriginalPage) {
+		this(webContext, script, null, invokeOriginalPage);
 	}
 	
-	public ScriptCaller(WebContext webContext, ScriptBuffer script, String uri, boolean sendToAllSessions) {
-		this(webContext, script, uri, sendToAllSessions, null);
+	public ScriptCaller(WebContext webContext, ScriptBuffer script, String uri, boolean invokeOriginalPage) {
+		this(webContext, script, uri, invokeOriginalPage, null);
 	}
 	
-	public ScriptCaller(WebContext webContext, ScriptBuffer script, String uri, boolean sendToAllSessions, Runnable task) {
+	public ScriptCaller(WebContext webContext, ScriptBuffer script, String uri, boolean invokeOriginalPage, Runnable task) {
 		this.webContext = webContext;
 		this.script = script;
 		this.uri = uri;
-		this.sendToAllSessions = sendToAllSessions;
+		this.invokeOriginalPage = invokeOriginalPage;
 		this.task = task;
 	}
 	
@@ -80,20 +84,33 @@ public class ScriptCaller implements Runnable {
 			return Boolean.FALSE;
 		}
 		
-		String currentPage = wctx.getCurrentPage();
+		String currentPage = null;
+		try {
+			currentPage = wctx.getCurrentPage();
+		} catch(Exception e) {}
 		if (StringUtil.isEmpty(currentPage)) {
 			currentPage = uri;
 		}
-		if (StringUtil.isEmpty(currentPage)) {
-			LOGGER.warning("Unable to resolve a page for task: " + task);
-			return Boolean.FALSE;
-		}
 		
-		try {
-			Browser.withPage(currentPage, task);
-		} catch(Exception e) {
-			LOGGER.log(Level.SEVERE, "Error executing task: " + task, e);
-			return Boolean.FALSE;
+		if (isInvokeOriginalPage() && StringUtil.isEmpty(currentPage)) {
+			try {
+				Browser.withAllSessions(task);
+			} catch(Exception e) {
+				LOGGER.log(Level.SEVERE, "Error executing task: " + task, e);
+				return Boolean.FALSE;
+			}
+		} else {
+			if (StringUtil.isEmpty(currentPage)) {
+				LOGGER.warning("Unable to resolve a page for task: " + task);
+				return Boolean.FALSE;
+			}
+			
+			try {
+				Browser.withPage(currentPage, task);
+			} catch(Exception e) {
+				LOGGER.log(Level.SEVERE, "Error executing task: " + task + " for a page: " + currentPage, e);
+				return Boolean.FALSE;
+			}
 		}
 		
 		return Boolean.TRUE;
@@ -118,14 +135,14 @@ public class ScriptCaller implements Runnable {
 		return uri;
 	}
 
-	boolean isSendToAllSessions() {
-		return sendToAllSessions;
-	}
-
 	Runnable getTask() {
 		return task;
 	}
 
+	boolean isInvokeOriginalPage() {
+		return invokeOriginalPage;
+	}
+	
 	public void setTask(Runnable task) {
 		this.task = task;
 	}
@@ -142,8 +159,32 @@ public class ScriptCaller implements Runnable {
 		this.uri = uri;
 	}
 
-	public void setSendToAllSessions(boolean sendToAllSessions) {
-		this.sendToAllSessions = sendToAllSessions;
+	public void setInvokeOriginalPage(boolean invokeOriginalPage) {
+		this.invokeOriginalPage = invokeOriginalPage;
+	}
+
+	public Collection<String> getHttpSessionsServed() {
+		return httpSessionsServed;
+	}
+
+	protected void setHttpSessionsServed(Collection<String> httpSessionsServed) {
+		this.httpSessionsServed = httpSessionsServed;
+	}
+	
+	protected void addHttpSessionServed(String httpSessionId) {
+		if (StringUtil.isEmpty(httpSessionId)) {
+			return;
+		}
+		
+		if (httpSessionsServed == null) {
+			httpSessionsServed = new ArrayList<String>();
+		}
+		
+		if (httpSessionsServed.contains(httpSessionId)) {
+			return;
+		}
+		
+		httpSessionsServed.add(httpSessionId);
 	}
 	
 }

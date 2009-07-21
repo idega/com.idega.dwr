@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import org.directwebremoting.ScriptBuffer;
 import org.directwebremoting.ScriptSession;
 import org.directwebremoting.extend.ScriptSessionManager;
+import org.directwebremoting.impl.DefaultScriptSessionManager;
 
 import com.idega.util.CoreConstants;
 import com.idega.util.ListUtil;
@@ -64,12 +65,24 @@ public class ScriptExecutor implements Runnable {
 			task.run();
 		}
 		
-		Collection<ScriptSession> allSessions = getAllScriptSessionsForPages(Arrays.asList(
-				scriptCaller.getWebContext().getCurrentPage(),
-				StringUtil.isEmpty(scriptCaller.getUri()) ? CoreConstants.EMPTY : scriptCaller.getUri()
-		));
+		String currentPageFromWebContext = null;
+		try {
+			currentPageFromWebContext = scriptCaller.getWebContext().getCurrentPage();
+		} catch(Exception e) {}
+		
+		Collection<ScriptSession> allSessions = null;
+		if (scriptCaller.isInvokeOriginalPage() && StringUtil.isEmpty(scriptCaller.getUri())) {
+			allSessions = getAllScriptSessions();
+		} else {
+			allSessions = getAllScriptSessionsForPages(Arrays.asList(
+								StringUtil.isEmpty(currentPageFromWebContext) ? CoreConstants.EMPTY : currentPageFromWebContext,
+								StringUtil.isEmpty(scriptCaller.getUri()) ? CoreConstants.EMPTY : scriptCaller.getUri()
+			));
+		}
 		if (ListUtil.isEmpty(allSessions)) {
-			LOGGER.info("No DWR script sessions found for script: " + scriptCaller.getScript() + " in page: " + scriptCaller.getWebContext().getCurrentPage());
+			LOGGER.info("No DWR script sessions found for script: " + scriptCaller.getScript() + (StringUtil.isEmpty(scriptCaller.getUri()) ?
+					CoreConstants.EMPTY :
+					" in page: " + currentPageFromWebContext));
 			return;
 		}
 		
@@ -83,14 +96,17 @@ public class ScriptExecutor implements Runnable {
 			sessionId = session.getId();
 			
 			if (!session.isInvalidated() && !sessionsWithScripts.contains(sessionId)) {
-				sessionsWithScripts.add(sessionId);
-				
-				if (scriptCaller.isSendToAllSessions()) {
-					session.addScript(script);
-				}
-				else {
-					if (currentSession != null && !session.equals(currentSession)) {
+				Object httpSessionId = session.getAttribute(DefaultScriptSessionManager.ATTRIBUTE_HTTPSESSIONID);
+				if (httpSessionId instanceof String) {
+					sessionsWithScripts.add(sessionId);
+					
+					if (scriptCaller.isInvokeOriginalPage()) {
 						session.addScript(script);
+						scriptCaller.addHttpSessionServed(httpSessionId.toString());
+					}
+					else if (currentSession != null && !session.equals(currentSession)) {
+						session.addScript(script);
+						scriptCaller.addHttpSessionServed(httpSessionId.toString());
 					}
 				}
 			}

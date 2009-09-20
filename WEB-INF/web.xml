@@ -52,6 +52,10 @@
     	<param-name>crossDomainSessionSecurity</param-name>
     	<param-value>false</param-value>
     </init-param>
+    <init-param>
+		<param-name>allowScriptTagRemoting</param-name>
+		<param-value>true</param-value>
+	</init-param>
     
     <!-- Early Closing Mode -->
     <init-param>

@@ -28,7 +28,7 @@ public class IdegaAnnotationsConfigurator extends AnnotationsConfigurator {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected Set<Class<?>> getClasses(Container container) {
-		Map beans = null;
+		Map<Object, Object> beans = null;
 		try {
 			beans = WebApplicationContextUtils.getWebApplicationContext(servletContext).getBeansOfType(DWRAnnotationPersistance.class);
 		} catch(Exception e) {

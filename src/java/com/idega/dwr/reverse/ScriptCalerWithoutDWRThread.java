@@ -21,7 +21,7 @@ import com.idega.util.ListUtil;
  */
 public class ScriptCalerWithoutDWRThread implements ScriptCallerInterface {
 
-	protected static final Logger LOGGER = Logger.getLogger(ScriptCaller.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ScriptCaller.class.getName());
 
 	private ScriptBuffer script = null;;
 
@@ -50,8 +50,7 @@ public class ScriptCalerWithoutDWRThread implements ScriptCallerInterface {
 
 		ScriptSessionManager manager = this.getManager();
 
-		//generic is not used because two types of sessions may be returned
-		Collection scriptSessions = null;
+		Collection <? extends ScriptSession>  scriptSessions = null;
 		if(this.sessionId != null){
 			scriptSessions = manager.getScriptSessionsByHttpSessionId(this.sessionId);
 
@@ -63,7 +62,7 @@ public class ScriptCalerWithoutDWRThread implements ScriptCallerInterface {
 		}
 
 		//sending script
-		for(ScriptSession scriptSession : (Collection<ScriptSession>)scriptSessions){
+		for(ScriptSession scriptSession : scriptSessions){
 			scriptSession.addScript(script);
 
 		}

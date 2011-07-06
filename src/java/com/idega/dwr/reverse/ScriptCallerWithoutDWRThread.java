@@ -19,7 +19,7 @@ import com.idega.util.ListUtil;
  * @author alex
  *
  */
-public class ScriptCalerWithoutDWRThread implements ScriptCallerInterface {
+public class ScriptCallerWithoutDWRThread implements ScriptCallerInterface {
 
 	private static final Logger LOGGER = Logger.getLogger(ScriptCaller.class.getName());
 
@@ -31,18 +31,14 @@ public class ScriptCalerWithoutDWRThread implements ScriptCallerInterface {
 
 	private ScriptSessionManager manager = null;
 
-	public ScriptCalerWithoutDWRThread(){
-
+	public ScriptCallerWithoutDWRThread(){
 	}
-	@Override
+
 	public void setScript(String script) {
 		this.script = new ScriptBuffer(script);
-
 	}
 
-	@Override
 	public void run(){
-
 		if (this.script == null) {
 			LOGGER.warning("Script is undefined!");
 			return;
@@ -69,24 +65,26 @@ public class ScriptCalerWithoutDWRThread implements ScriptCallerInterface {
 
 	}
 
-	@Override
 	public void setUri(String uri) {
 		this.uri = uri;
-
 	}
+
 	public ScriptBuffer getScript() {
 		return script;
 	}
+
 	public void setScript(ScriptBuffer script) {
 		this.script = script;
 	}
+	
 	public String getSessionId() {
 		return sessionId;
 	}
-	@Override
+
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}
+
 	public ScriptSessionManager getManager() {
 		if(this.manager == null){
 			Container container = ServerContextFactory.get().getContainer();
@@ -94,12 +92,12 @@ public class ScriptCalerWithoutDWRThread implements ScriptCallerInterface {
 		}
 		return this.manager;
 	}
+
 	public void setManager(ScriptSessionManager manager) {
 		this.manager = manager;
 	}
+	
 	public String getUri() {
 		return uri;
 	}
-
-
 }

@@ -120,7 +120,6 @@ public class ScriptCaller implements Runnable {
 		return webContext;
 	}
 
-	@Override
 	public void run() {
 		if (script == null) {
 			return;

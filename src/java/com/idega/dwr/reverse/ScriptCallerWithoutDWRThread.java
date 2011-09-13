@@ -11,6 +11,7 @@ import org.directwebremoting.extend.ScriptSessionManager;
 
 import com.idega.event.ScriptCallerInterface;
 import com.idega.util.ListUtil;
+import com.idega.util.StringUtil;
 
 /**
  * A class that can be used in non-DWR thread to send script to browser. It should be used only if
@@ -45,24 +46,16 @@ public class ScriptCallerWithoutDWRThread implements ScriptCallerInterface {
 		}
 
 		ScriptSessionManager manager = this.getManager();
+		Collection<? extends ScriptSession> scriptSessions = StringUtil.isEmpty(getSessionId()) ?
+				manager.getAllScriptSessions() : manager.getScriptSessionsByHttpSessionId(getSessionId());
 
-		Collection <? extends ScriptSession>  scriptSessions = null;
-		if(this.sessionId != null){
-			scriptSessions = manager.getScriptSessionsByHttpSessionId(this.sessionId);
-
-		}else{
-			scriptSessions = manager.getAllScriptSessions();
-		}
-		if(ListUtil.isEmpty(scriptSessions)){
+		if (ListUtil.isEmpty(scriptSessions))
 			return;
-		}
 
 		//sending script
-		for(ScriptSession scriptSession : scriptSessions){
+		for (ScriptSession scriptSession: scriptSessions) {
 			scriptSession.addScript(script);
-
 		}
-
 	}
 
 	public void setUri(String uri) {
@@ -99,5 +92,12 @@ public class ScriptCallerWithoutDWRThread implements ScriptCallerInterface {
 	
 	public String getUri() {
 		return uri;
+	}
+
+	@Override
+	public void executeScript(String httpSessionId, String script) {
+		setSessionId(httpSessionId);
+		setScript(script);
+		run();
 	}
 }

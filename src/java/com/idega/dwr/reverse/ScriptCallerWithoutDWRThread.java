@@ -94,7 +94,6 @@ public class ScriptCallerWithoutDWRThread implements ScriptCallerInterface {
 		return uri;
 	}
 
-	@Override
 	public void executeScript(String httpSessionId, String script) {
 		setSessionId(httpSessionId);
 		setScript(script);

@@ -19,14 +19,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
     <servlet-name>dwr-invoker</servlet-name>
     <servlet-class>com.idega.dwr.servlet.DWRExtendedServlet</servlet-class>
 
-	<init-param>
-		<param-name>pollAndCometEnabled</param-name>
-		<param-value>true</param-value>
-	</init-param>
-	<init-param>
-    	<param-name>allowGetForSafariButMakeForgeryEasier</param-name>
-    	<param-value>true</param-value>
-  	</init-param>
   	<init-param>
     	<param-name>activeReverseAjaxEnabled</param-name>
     	<param-value>true</param-value>
@@ -37,11 +29,11 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
     </init-param>
     <init-param>
       <param-name>debug</param-name>
-      <param-value>true</param-value>
+      <param-value>false</param-value>
     </init-param>
     <init-param>
     	<param-name>logLevel</param-name>
-    	<param-value>ERROR</param-value>
+    	<param-value>EXCEPTION</param-value>
     </init-param>
     <init-param>
       <param-name>scriptCompressed</param-name>
@@ -53,6 +45,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
     </init-param>
     <init-param>
 		<param-name>allowScriptTagRemoting</param-name>
+		<param-value>true</param-value>
+	</init-param>
+	<init-param>
+		<param-name>allowGetForSafariButMakeForgeryEasier</param-name>
 		<param-value>true</param-value>
 	</init-param>
     

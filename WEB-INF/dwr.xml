@@ -8,6 +8,7 @@
 		<create creator="ibo" javascript="DWREventService" scope="application">
 			<param name="class" value="com.idega.dwr.event.DWREventService"/>
  		</create>
+ 		
  		<convert converter="bean" match="com.idega.dwr.event.DWREvent"/>
  		<convert converter="bean" match="com.idega.dwr.event.DWREventListenerBean"/>
 	</allow>

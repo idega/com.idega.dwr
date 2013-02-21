@@ -55,7 +55,8 @@ public class JDocumentConverter extends JDOMConverter {
              XMLOutputter writer = new XMLOutputter(outformat);
 
 	         // Using XSLT to convert to a stream. Setup the source
-	         if (data instanceof Document) {
+	         boolean document = data instanceof Document;
+             if (document) {
 	             writer.output((Document) data, xml);
 	         } else if (data instanceof Element) {
 	             writer.output((Element) data, xml);
@@ -64,7 +65,9 @@ public class JDocumentConverter extends JDOMConverter {
 	         }
 
 	         xml.flush();
-             String script = EnginePrivate.xmlStringToJavascriptDomElement(xml.toString());
+	         String xmlString = xml.toString();
+             String script = document ? EnginePrivate.xmlStringToJavascriptDomDocument(xmlString) :
+            	 						EnginePrivate.xmlStringToJavascriptDomElement(xmlString);
 
 	         OutboundVariable ov = new NonNestedOutboundVariable(script);
 	         outctx.put(data, ov);

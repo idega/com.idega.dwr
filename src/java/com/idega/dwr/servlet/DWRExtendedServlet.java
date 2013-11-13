@@ -82,7 +82,6 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 	 */
 	protected void registerAnnotations() {
 		Configurator configurator = new IdegaAnnotationsConfigurator();
-		((IdegaAnnotationsConfigurator) configurator).setServletContext(getServletContext());
         configurator.configure(getContainer());
 	}
 
@@ -101,11 +100,18 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 		loader.loadBundlesFromJars();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @see com.idega.idegaweb.JarLoader#loadJar(java.io.File,java.util.jar.JarFile,
+	 *      java.lang.String)
+	 */
 	@Override
 	public void loadJar(File bundleJarFile, JarFile jarFile, String jarPath) {
 		JarEntry entry = jarFile.getJarEntry("WEB-INF/dwr.xml");
 		if (entry == null)
 			return;
+		}
 
 		InputStream stream = null;
 		try {

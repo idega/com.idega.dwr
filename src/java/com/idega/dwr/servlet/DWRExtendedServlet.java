@@ -109,7 +109,7 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 	@Override
 	public void loadJar(File bundleJarFile, JarFile jarFile, String jarPath) {
 		JarEntry entry = jarFile.getJarEntry("WEB-INF/dwr.xml");
-		if (entry == null)
+		if (entry == null) {
 			return;
 		}
 

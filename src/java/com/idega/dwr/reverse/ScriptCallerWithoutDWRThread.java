@@ -1,17 +1,13 @@
 package com.idega.dwr.reverse;
 
-import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.directwebremoting.Container;
 import org.directwebremoting.ScriptBuffer;
-import org.directwebremoting.ScriptSession;
 import org.directwebremoting.ServerContextFactory;
 import org.directwebremoting.extend.ScriptSessionManager;
 
 import com.idega.event.ScriptCallerInterface;
-import com.idega.util.ListUtil;
-import com.idega.util.StringUtil;
 
 /**
  * A class that can be used in non-DWR thread to send script to browser. It should be used only if
@@ -40,22 +36,24 @@ public class ScriptCallerWithoutDWRThread implements ScriptCallerInterface {
 	}
 
 	public void run(){
-		if (this.script == null) {
-			LOGGER.warning("Script is undefined!");
-			return;
-		}
+//		if (this.script == null) {
+//			LOGGER.warning("Script is undefined!");
+//			return;
+//		}
+//
+//		ScriptSessionManager manager = this.getManager();
+//		Collection<? extends ScriptSession> scriptSessions = StringUtil.isEmpty(getSessionId()) ?
+//				manager.getAllScriptSessions() : manager.getScriptSessionsByHttpSessionId(getSessionId());
+//
+//		if (ListUtil.isEmpty(scriptSessions))
+//			return;
+//
+//		//sending script
+//		for (ScriptSession scriptSession: scriptSessions) {
+//			scriptSession.addScript(script);
+//		}
 
-		ScriptSessionManager manager = this.getManager();
-		Collection<? extends ScriptSession> scriptSessions = StringUtil.isEmpty(getSessionId()) ?
-				manager.getAllScriptSessions() : manager.getScriptSessionsByHttpSessionId(getSessionId());
-
-		if (ListUtil.isEmpty(scriptSessions))
-			return;
-
-		//sending script
-		for (ScriptSession scriptSession: scriptSessions) {
-			scriptSession.addScript(script);
-		}
+		throw new UnsupportedOperationException();
 	}
 
 	public void setUri(String uri) {

@@ -2,10 +2,8 @@ package com.idega.dwr.reverse;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.directwebremoting.Browser;
 import org.directwebremoting.ScriptBuffer;
 import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
@@ -79,41 +77,43 @@ public class ScriptCaller implements Runnable {
 	}
 
 	private boolean addTaskForCurrentPageScriptSessions(Runnable task) {
-		WebContext wctx = getWebContext();
-		if (wctx == null) {
-			return Boolean.FALSE;
-		}
+//		WebContext wctx = getWebContext();
+//		if (wctx == null) {
+//			return Boolean.FALSE;
+//		}
+//
+//		String currentPage = null;
+//		try {
+//			currentPage = wctx.getCurrentPage();
+//		} catch(Exception e) {}
+//		if (StringUtil.isEmpty(currentPage)) {
+//			currentPage = uri;
+//		}
+//
+//		if (isInvokeOriginalPage() && StringUtil.isEmpty(currentPage)) {
+//			try {
+//				Browser.withAllSessions(task);
+//			} catch(Exception e) {
+//				LOGGER.log(Level.SEVERE, "Error executing task: " + task, e);
+//				return Boolean.FALSE;
+//			}
+//		} else {
+//			if (StringUtil.isEmpty(currentPage)) {
+//				LOGGER.warning("Unable to resolve a page for task: " + task);
+//				return Boolean.FALSE;
+//			}
+//
+//			try {
+//				Browser.withPage(currentPage, task);
+//			} catch(Exception e) {
+//				LOGGER.log(Level.SEVERE, "Error executing task: " + task + " for a page: " + currentPage, e);
+//				return Boolean.FALSE;
+//			}
+//		}
+//
+//		return Boolean.TRUE;
 
-		String currentPage = null;
-		try {
-			currentPage = wctx.getCurrentPage();
-		} catch(Exception e) {}
-		if (StringUtil.isEmpty(currentPage)) {
-			currentPage = uri;
-		}
-
-		if (isInvokeOriginalPage() && StringUtil.isEmpty(currentPage)) {
-			try {
-				Browser.withAllSessions(task);
-			} catch(Exception e) {
-				LOGGER.log(Level.SEVERE, "Error executing task: " + task, e);
-				return Boolean.FALSE;
-			}
-		} else {
-			if (StringUtil.isEmpty(currentPage)) {
-				LOGGER.warning("Unable to resolve a page for task: " + task);
-				return Boolean.FALSE;
-			}
-
-			try {
-				Browser.withPage(currentPage, task);
-			} catch(Exception e) {
-				LOGGER.log(Level.SEVERE, "Error executing task: " + task + " for a page: " + currentPage, e);
-				return Boolean.FALSE;
-			}
-		}
-
-		return Boolean.TRUE;
+		throw new UnsupportedOperationException();
 	}
 
 	WebContext getWebContext() {

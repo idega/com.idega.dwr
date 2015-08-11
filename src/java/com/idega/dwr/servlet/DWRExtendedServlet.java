@@ -19,17 +19,12 @@ import java.util.logging.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
-import org.directwebremoting.extend.AbstractCreator;
 import org.directwebremoting.extend.Configurator;
 import org.directwebremoting.extend.CreatorManager;
-import org.directwebremoting.faces.JsfCreator;
 import org.directwebremoting.impl.DwrXmlConfigurator;
 import org.directwebremoting.servlet.DwrServlet;
-import org.directwebremoting.spring.SpringCreator;
 
 import com.idega.dwr.annotations.IdegaAnnotationsConfigurator;
-import com.idega.dwr.create.IBOCreator;
-import com.idega.dwr.util.IWContinuation;
 import com.idega.idegaweb.IWMainApplication;
 import com.idega.idegaweb.IWModuleLoader;
 import com.idega.idegaweb.JarLoader;
@@ -57,24 +52,25 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-
-		IWContinuation.setUseJetty(false);
-
-		// First add our custom creator
-		registerCreator("ibo", IBOCreator.class);
-
-		//	JSF creator
-		registerCreator("jsf", JsfCreator.class);
-
-		//	Spring creator
-		registerCreator("spring", SpringCreator.class);
-
-		//	Configure annotations
-		registerAnnotations();
-
-		// Load the configurations from bundles
-		loadDWRConfigFilesFromBundles();
+//		super.init(config);
+//
+//		IWContinuation.setUseJetty(false);
+//
+//		// First add our custom creator
+//		registerCreator("ibo", IBOCreator.class);
+//
+//		//	JSF creator
+//		registerCreator("jsf", JsfCreator.class);
+//
+//		//	Spring creator
+//		registerCreator("spring", SpringCreator.class);
+//
+//		//	Configure annotations
+//		registerAnnotations();
+//
+//		// Load the configurations from bundles
+//		loadDWRConfigFilesFromBundles();
+		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -88,7 +84,7 @@ public class DWRExtendedServlet extends DwrServlet implements JarLoader {
 	/**
 	 * Add a new type of DWR object
 	 */
-	protected void registerCreator(String creatorName, Class<? extends AbstractCreator> creatorClass) {
+	protected void registerCreator(String creatorName, Class<?> creatorClass) {
 		CreatorManager cman = (CreatorManager) getContainer().getBean(CreatorManager.class.getName());
 		cman.addCreatorType(creatorName, creatorClass.getName());
 	}

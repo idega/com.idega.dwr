@@ -33,5 +33,12 @@
       <groupId>org.directwebremoting</groupId>
       <artifactId>dwr-noncla</artifactId>
     </dependency> -->
+    <dependency>
+    	<!-- Optional non-CLA components see DWR documentation for details -->
+    	<groupId>org.directwebremoting</groupId>
+    	<artifactId>dwr</artifactId>
+    	<classifier>noncla</classifier>
+    	<version>3.0.0-SNAPSHOT</version>
+  	</dependency>
   </dependencies>
 </project>

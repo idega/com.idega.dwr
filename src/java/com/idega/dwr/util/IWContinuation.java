@@ -2,16 +2,16 @@ package com.idega.dwr.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class IWContinuation {
+import org.directwebremoting.util.Continuation;
+
+public class IWContinuation extends Continuation {
 
 	public static final void setUseJetty(boolean useJetty) {
-		throw new UnsupportedOperationException();
-//		isJetty = useJetty;
+		isJetty = useJetty;
 	}
-	
+
 	public IWContinuation(HttpServletRequest request) {
-		throw new UnsupportedOperationException();
-//		super(request);
+		super(request);
 	}
 
 }

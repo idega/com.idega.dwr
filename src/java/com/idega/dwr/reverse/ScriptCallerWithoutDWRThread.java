@@ -1,13 +1,17 @@
 package com.idega.dwr.reverse;
 
+import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.directwebremoting.Container;
 import org.directwebremoting.ScriptBuffer;
+import org.directwebremoting.ScriptSession;
 import org.directwebremoting.ServerContextFactory;
 import org.directwebremoting.extend.ScriptSessionManager;
 
 import com.idega.event.ScriptCallerInterface;
+import com.idega.util.ListUtil;
+import com.idega.util.StringUtil;
 
 /**
  * A class that can be used in non-DWR thread to send script to browser. It should be used only if
@@ -31,31 +35,32 @@ public class ScriptCallerWithoutDWRThread implements ScriptCallerInterface {
 	public ScriptCallerWithoutDWRThread(){
 	}
 
+	@Override
 	public void setScript(String script) {
 		this.script = new ScriptBuffer(script);
 	}
 
+	@Override
 	public void run(){
-//		if (this.script == null) {
-//			LOGGER.warning("Script is undefined!");
-//			return;
-//		}
-//
-//		ScriptSessionManager manager = this.getManager();
-//		Collection<? extends ScriptSession> scriptSessions = StringUtil.isEmpty(getSessionId()) ?
-//				manager.getAllScriptSessions() : manager.getScriptSessionsByHttpSessionId(getSessionId());
-//
-//		if (ListUtil.isEmpty(scriptSessions))
-//			return;
-//
-//		//sending script
-//		for (ScriptSession scriptSession: scriptSessions) {
-//			scriptSession.addScript(script);
-//		}
+		if (this.script == null) {
+			LOGGER.warning("Script is undefined!");
+			return;
+		}
 
-		throw new UnsupportedOperationException();
+		ScriptSessionManager manager = this.getManager();
+		Collection<? extends ScriptSession> scriptSessions = StringUtil.isEmpty(getSessionId()) ?
+				manager.getAllScriptSessions() : manager.getScriptSessionsByHttpSessionId(getSessionId());
+
+		if (ListUtil.isEmpty(scriptSessions))
+			return;
+
+		//sending script
+		for (ScriptSession scriptSession: scriptSessions) {
+			scriptSession.addScript(script);
+		}
 	}
 
+	@Override
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
@@ -67,11 +72,12 @@ public class ScriptCallerWithoutDWRThread implements ScriptCallerInterface {
 	public void setScript(ScriptBuffer script) {
 		this.script = script;
 	}
-	
+
 	public String getSessionId() {
 		return sessionId;
 	}
 
+	@Override
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}
@@ -87,11 +93,12 @@ public class ScriptCallerWithoutDWRThread implements ScriptCallerInterface {
 	public void setManager(ScriptSessionManager manager) {
 		this.manager = manager;
 	}
-	
+
 	public String getUri() {
 		return uri;
 	}
 
+	@Override
 	public void executeScript(String httpSessionId, String script) {
 		setSessionId(httpSessionId);
 		setScript(script);
